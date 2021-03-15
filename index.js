@@ -8,6 +8,38 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended:false}));
 
 
+const users = [
+  {first_name: 'John', last_name: 'Doe', age: 31},
+  {first_name: 'Petter', last_name: 'Jackson', age: 21},
+]
+
+app.get('/', (request, response) => {
+  response.send('Welcome')
+})
+
+app.get('/user', (request, response) => {
+  response.json(users)
+})
+
+app.get('/user/:id', (request, response) => {
+  console.log(request.params)
+  const {id} = request.params 
+  response.json(users[id])
+})
+
+app.post('/user', (request, response) => {
+  console.log(request.body) 
+  const {first_name, last_name, age} = request.body
+  users.push({first_name, last_name, age})
+  response.end()
+})
+
+app.delete('/user/:id', (request, response) => {
+  console.log(request.params)
+  const {id} = request.params
+  users.splice(id, 1)
+  response.end()
+})
 
 // app.get('/', (request, response) => {
 //   // console.log('Request Received') 
