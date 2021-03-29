@@ -68,10 +68,24 @@ router.post('/user', (request, response) => {
 })
 
 router.delete('/user/:id', (request, response) => {
-  console.log(request.params)
   const {id} = request.params
-  users.splice(id, 1)
-  response.end()
+
+  const connection = getNewConnection();
+  const queryString = `Delete FROM user where id = ${id}`
+
+  connection.query(queryString, (err, result, fields) => {
+    if (err != null) {
+      console.error(err)
+      response.sendStatus(500);
+    } else {
+      // As exercise check if user was actually removed. 
+      console.log(result)
+      response.end()
+    }
+  }) 
+
+  // users.splice(id, 1)
+  // response.end()
 })
 
 
