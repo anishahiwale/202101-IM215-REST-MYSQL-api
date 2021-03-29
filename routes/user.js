@@ -9,7 +9,14 @@ const users = [
 ]
 
 router.get('/user', (request, response) => {
-  response.json(users)
+  // response.sendStatus(501)
+  response.status(501).end()
+  // response.status(501).json(
+  //   {
+  //     msg: 'Not implemented',
+  //     display: 'alert-error'
+  //   }
+  // )
 })
 
 router.get('/user/:id', (request, response) => {
