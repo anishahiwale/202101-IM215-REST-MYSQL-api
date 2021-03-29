@@ -32,33 +32,28 @@ router.get('/user', (request, response) => {
       response.json(rows);
     }
   })
-
-
-
-
-
-  // response.json(users)
-  // response.sendStatus(501)
-  // response.status(501).end()
-  // response.status(501).json(
-  //   {
-  //     msg: 'Not implemented',
-  //     display: 'alert-error'
-  //   }
-  // )
 })
 
 router.get('/user/:id', (request, response) => {
-  console.log(request.params)
   const {id} = request.params 
-  response.json(users[id])
+  const connection = getNewConnection();
+  const queryString = `Select * FROM user where id = ${id}`
+
+  connection.query(queryString, (err, rows, fields) => {
+    if (err != null) {
+      console.error(err)
+      response.sendStatus(500);
+    } else {
+      response.json(rows[0]);
+    }
+  }) 
 })
 
 router.post('/user', (request, response) => {
 
   const {first_name, last_name, age} = request.body
   const queryString = `INSERT INTO user VALUES (NULL, '${first_name}', '${last_name}', ${age})`
-  
+
   const connection = getNewConnection()
   connection.query(queryString, (err, result, fields) => {
     console.log('Got a Response from our Database Server')
