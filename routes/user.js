@@ -4,20 +4,19 @@ const router = express.Router()
 
 const mysql = require('mysql')
 
+const pool = mysql.createPool({
+  connectionLimit: 5,
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: 'password',
+  database: '202101-IM215-REST',
+});
+
 function getNewConnection() {
-  return mysql.createConnection({
-      host: 'localhost',
-      port: 3306,
-      user: 'root',
-      password: 'password',
-      database: '202101-IM215-REST',
-}) }
+  return pool
+}
 
-
-const users = [
-  {first_name: 'John', last_name: 'Doe', age: 31},
-  {first_name: 'Petter', last_name: 'Jackson', age: 21},
-]
 
 router.get('/user', (request, response) => {
 
